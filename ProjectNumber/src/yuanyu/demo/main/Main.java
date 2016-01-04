@@ -17,8 +17,8 @@ public class Main {
         	int N = in.nextInt();
         	System.out.print("frequency freq =? ");
         	int freq = in.nextInt();       	
-        	//System.out.println("result = "  + findLastNum(N, freq));  
-        	System.out.println("result = "  + findLastNumSec(N, freq));
+        	//System.out.println("result = "  + findLastNumSec(N, freq));
+        	System.out.println("result = " + findFinalNum(N, freq));
         }
    
 	}
@@ -32,5 +32,21 @@ public class Main {
 			nl.removeN(readyToRemove);
 		}
 		return nl.getLast();
+	}
+	
+	public static int findFinalNum(int number, int freq){
+		NumberList nl = new NumberList(number);
+		nl = findNextNumSet(nl,0,freq);
+		return nl.getLast();
+	}
+	
+	public static NumberList findNextNumSet(NumberList nl,int readyToRemove,int freq ){
+		if(nl.leftSize() > 1){
+			readyToRemove = (readyToRemove + freq -1) % nl.leftSize();
+			nl.removeN(readyToRemove);
+			return findNextNumSet(nl,readyToRemove, freq);
+		}
+		else
+			return nl;
 	}
 }
