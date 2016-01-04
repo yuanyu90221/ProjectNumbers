@@ -2,7 +2,7 @@ package yuanyu.demo.main;
 
 import java.util.Scanner;
 
-import yuanyu.demo.model.SelfList;
+import yuanyu.demo.model.NumberList;
 
 public class Main {
 
@@ -14,42 +14,23 @@ public class Main {
 		{
             System.out.println("The "+i +"th test:");
         	System.out.print("total student N = ?");
-        	int N = Integer.parseInt(in.nextLine());
+        	int N = in.nextInt();
         	System.out.print("frequency freq =? ");
-        	int freq = Integer.parseInt(in.nextLine());        	
-        	System.out.println("result = "  + findLastNum(N, freq));        	
+        	int freq = in.nextInt();       	
+        	//System.out.println("result = "  + findLastNum(N, freq));  
+        	System.out.println("result = "  + findLastNumSec(N, freq));
         }
    
 	}
-	
-	public static int findLastNum(int number, int freq){
-		SelfList sl = new SelfList(number);
-		do{
-			FindUseFul(sl,freq);
-			System.out.println("[yuanyu] current number index " + sl.getCurrentNum().getValue());
-		}while(sl.getLeftSize()> 1);
-		return sl.getCurrentNum().getValue();
-	}
-	
-	public static void FindUseFul(SelfList sl, int freq){
-		int counter = 0;
-		do{
-			if(sl.getCurrentNum().isRemoved()){
-				sl.iteration();
-			}
-			else{
-			    if(counter==freq-1){
-			    	sl.removeN(sl.getCurrentNum().getValue());
-			    }
-			    else{
-			    	sl.iteration();
-			    }
-			    while(sl.getCurrentNum().isRemoved()){
-			    	System.out.println("Next number : " + sl.getCurrentNum().getValue());
-			    	sl.iteration();
-			    }
-				counter++;
-			}
-		}while(counter < freq);
+		
+	public static int findLastNumSec(int total, int freq){
+		NumberList nl = new NumberList(total);
+		int readyToRemove = 0;
+		while(nl.leftSize() > 1){
+			nl.echoLeft();
+			readyToRemove = (readyToRemove + freq -1)% nl.leftSize();
+			nl.removeN(readyToRemove);
+		}
+		return nl.getLast();
 	}
 }
